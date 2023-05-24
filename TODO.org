@@ -1,0 +1,108 @@
+* DONE MVP
+CLOSED: [2022-02-21 Mon 17:08]
+- [X] Plot points will filled circles of any radius
+- [X] Draw the lines that connect the data-points together
+- [X] Put numbers on the graph (just start with the direct one)
+
+* DONE What to do now? (22/02)
+CLOSED: [2022-02-22 Thu 10:18]
+** DONE Before midi
+CLOSED: [2022-02-22 Tue 17:02]
+- [X] Algorithm to put rounded numbers on the graph (Would make the plotter actually useful)
+  Took a bit longer than expected but looks like it it working -> YES!!!
+** DONE After midi
+CLOSED: [2022-02-22 Thu 10:20]
+- [X] Remove magic numbers from the code
+  
+* DONE What to do now? (24/02)
+CLOSED: [2022-02-25 Thu 17:10]
+** DONE Before Midi
+CLOSED: [2022-02-24 Thu 12:00]
+- [X] Clean the code -> try to use lambdas for the step_division calculation ,the section for putting nums on the axes, and rounding nums
+
+** DONE After Midi
+CLOSED: [2022-02-25 Thu 17:10]
+- [X] If one of the data_ranges is filled, only the "seen" points should affect the data-ranges
+- [X] Add small segments on axis for number position
+- [X] Add titles to the axis (How to put the title on the y axis?) (Might need to change API => give funcs to set titles)
+- [X] For the nums on the axes, have a rule for when to use scientific notation or not. (if abs(exponent) > 3 use scientific ?)
+  (Already done for me lol)
+* DONE What to do now? (25/02)
+CLOSED: [2022-02-26 Fri 17:15]
+** Before midi
+- [X] Save the plot to png (makes it usable for PDFs)
+  Pretty easy (just copying code and adding some api functions)
+** After midi
+- [X] Plot multiple datasets in the same graph (A large refactor, also something with colors)
+  Did a very sloppy job with it using vectors. Really need to clean it up
+
+* DONE What to do now? (27/02)
+CLOSED: [2022-02-27 Sun 19:51]
+** DONE Before midi
+CLOSED: [2022-02-27 Sun 19:28]
+- [X] Clean up the code related to multiplots, like the vector<vector<SDL_Point>>, and use double pointers
+- [X] Make a struct that holds the plot state => hold all the booleans and the enums
+- [X] Make it possible to produce multiple plots in a row => make multiple pngs in one code base
+- [X] Put in a title (should be easy to do)
+  
+** DONE After midi
+CLOSED: [2022-02-27 Sun 19:28]
+* DONE What to do now? (28/02)
+CLOSED: [2022-03-01 Mon 19:00]
+- [X] Make functions for writing text to the screen, I'm repeating myself.
+- [X] Change the qsort algorithm
+
+* DONE What to do now? (01/03)
+CLOSED: [2022-03-01 Tue 18:09]
+- [X] (HIGH PRIORITY) For the multiplot, will need to put in a legend (At first glance, it seems to be hard. We shall see)
+- [X] Make some improvements for text rendering, particularly stuff related to x and y position
+- [X] Separate the filled circle and wide line algorithms into other cpp files
+* DONE What to do now? (03/03)
+CLOSED: [2022-03-03 Thu 17:05]
+- [X] Make the legend cover the original graph (can't see the data through the legend rectangle)
+* DONE What to do now? (4/03)
+CLOSED: [2022-03-04 Fri 12:20]
+- [X] Be able to change the aspect ratio (shape of the plot)
+- [X] Be able to turn off the legend
+- [X] Have some logic for which end to add the correction to a rounded step size, the max or the min (the one with the biggest absolute value?)
+
+* DONE What to do now? (7/03)
+CLOSED: [2022-03-07 Mon 16:12]
+- [X] (HIGH PRIORITY) Able to draw hlines and vlines
+- [X] Debug the drawing of lines
+- [X] Clean-up code for perp-lines
+- [X] (HIGH PRIORITY) When the user uses a hline or a vline, have some logic to produce a finer step to get the hline closer to a marking
+- [X] Able to make sub-markings
+* DONE What to do now? (8/03)
+CLOSED: [2022-03-08 Tue 16:50]
+- [X] (HIGHEST PRIORITY) Have some logic for the color of the graphs, allow the user to fix the colors of the graphs
+  - [X] Have 6-10 possible colors a graph or a perp-line can have (that somehow are distinct from each other)
+- [X] Fix the rounding of data_ranges when very close to a round number
+- [X] Logic for when to round the data-ranges
+- [X] Shift both the max and the min if last visible digit is not compatible with the step type
+Hopefully the markings on the graph should work most of the time now, we shall see
+* DONE What to do now? (10/03)
+CLOSED: [2022-03-10 Thu 16:48]
+- [X] (HIGHEST PRIORITY) Implement sdl_gfx  to render the filled circles and the thicklines
+- [X] Render aa filled circles
+- [X] Change how the coloring is done
+
+The alg for rendering thick lines is still a bit shit, I think I will just move on from it and try to do the IMGUI stuff
+* For the future, to make it better
+** Easy improvements (I guess)
+- [ ] Be able to draw general line segments (any orientation, not just HLINE or VLINE) => modify lines code to be general segment code
+- [ ] Be able to have a legend for a line segments
+- [ ] Have it such that the user can fix a color to a graph or perp-line => fix the colors of the other graphs accordingly (favor distinctiveness)
+** Big ones (Probably)
+- [ ] Make a plotting executable that reads a script to produce a plot => My own shitty version of gnuplot baby!!!
+- [ ] Investigate the speed of the program (render vs software) => try out coz thing ?
+- [ ] Have a helper function to read data from a .txt then plot it (Will also need helper functions to write the data in the correct format) (will be needed for the gnuplot clone)
+- [ ] While having a graph produced in a window, have a sort of gui (or keybindings?) that can change the properties of the graph and have it re-render itself based-off those changes
+  - [ ] Have DearImGui or MicroUI appear in the window (might need to use opengl to do that => should only need to change the render backend, how to save a texture to png?) (there is an imgui backend using sdl_renderer => YES!!)
+- [ ] (LOW PRIORITY) Improve the save to png to make it less hacky => not make a window if we're only saving to png (Software renderer!!! only use surfaces then! [[https://wiki.libsdl.org/SDL_CreateSoftwareRenderer][how to make software renderer]])
+- [ ] (LOW PRIORITY) Histogram
+- [ ] (LOW PRIORITY) Have a log and a log-log plot
+
+  
+  
+  
