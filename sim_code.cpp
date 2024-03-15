@@ -1,5 +1,5 @@
 #define STB_DS_IMPLEMENTATION
-#include <stb/stb_ds.h>
+#include "stb_ds.h"
 #include <stdio.h>
 
 #include "plotting.h"
