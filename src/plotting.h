@@ -13,8 +13,10 @@ void show_legend();
 void save_to_png(const char *file_path);
 void only_png(const char *file_path);
 void draw_perp_line(double value, LINE_TYPE type);
-void plot(double x_data[], double y_data[], int total_points, double x_range[2] = NULL, double y_range[2] = NULL);
-void scatter_plot(double x_data[], double y_data[], int total_points, double x_range[2] = NULL, double y_range[2] = NULL);
+void plot(double x_data[], double y_data[], int total_points, double x_range[2] = NULL,
+          double y_range[2] = NULL);
+void scatter_plot(double x_data[], double y_data[], int total_points, double x_range[2] = NULL,
+                  double y_range[2] = NULL);
 void add_plot(double x_data[], double y_data[], int total_points, const char *legend = NULL);
 void plot_all(double x_range[2] = NULL, double y_range[2] = NULL);
 void scatter_plot_all(double x_range[2] = NULL, double y_range[2] = NULL);
