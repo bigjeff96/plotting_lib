@@ -612,38 +612,38 @@ internal void make_plot(double x_range[2], double y_range[2]) {
 
     auto get_color = [&](COLOR color) -> int32_t {
         switch (color) {
-	case RED:
-	    return 0xE6194BFF;
-	    break;
-	case BLUE:
-	    return 0x0082C8FF;
-	    break;
-	case GREEN:
-	    return 0x3CB44BFF;
-	    break;
-	case LIGHT_BLUE:
-	    return 0x46F0F0FF;
-	    break;
-	case ORANGE:
-	    return 0xF58230FF;
-	    break;
-	case LIGHT_GREEN:
-	    return 0xD2F53CFF;
-	    break;
-	case MAGENTA:
-	    return 0xF032E6FF;
-	    break;
-	case PURPLE:
-	    return 0x911EB4FF;
-	    break;
-	case BLACK:
-	    return 0x000000FF;
-	    break;
-	case GREY:
-	    return 0x808080FF;
-	    break;
-	default:
-	    __builtin_unreachable();
+            case RED:
+                return 0xE6194BFF;
+                break;
+            case BLUE:
+                return 0x0082C8FF;
+                break;
+            case GREEN:
+                return 0x3CB44BFF;
+                break;
+            case LIGHT_BLUE:
+                return 0x46F0F0FF;
+                break;
+            case ORANGE:
+                return 0xF58230FF;
+                break;
+            case LIGHT_GREEN:
+                return 0xD2F53CFF;
+                break;
+            case MAGENTA:
+                return 0xF032E6FF;
+                break;
+            case PURPLE:
+                return 0x911EB4FF;
+                break;
+            case BLACK:
+                return 0x000000FF;
+                break;
+            case GREY:
+                return 0x808080FF;
+                break;
+            default:
+                __builtin_unreachable();
         }
     };
 

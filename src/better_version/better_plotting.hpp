@@ -7,3 +7,5 @@ struct Plotter {
     int width;
     int height;
 };
+
+int plot_func();

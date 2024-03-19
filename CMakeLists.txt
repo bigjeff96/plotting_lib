@@ -13,7 +13,7 @@ add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 # Add linker options
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=mold")
 
-set(CMAKE_UNITY_BUILD TRUE)
+# set(CMAKE_UNITY_BUILD TRUE)
 
 # Add definitions for sanitizers
 add_compile_options(-fsanitize=address,undefined,leak)
@@ -24,8 +24,8 @@ add_link_options(-fsanitize=address,undefined,leak)
 include_directories(src/better_version/)
 
 # Add the executable
-add_executable(better_plotting src/better_version/better_plotting.cpp)
-set_target_properties(better_plotting PROPERTIES UNITY_BUILD_BATCH_SIZE 8)
+add_executable(better_plotting src/better_version/better_plotting.cpp
+                               src/better_version/test.cpp)
 
 # Link with SDL2
 find_package(SDL2 REQUIRED)
