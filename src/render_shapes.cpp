@@ -2,11 +2,7 @@
 
 #include <SDL2/SDL.h>
 
-#define HEX_COLOR(hex)                                                               \
-    ((hex) >> (3 * 8)) & 0xFF, ((hex) >> (2 * 8)) & 0xFF, ((hex) >> (1 * 8)) & 0xFF, \
-        ((hex) >> (0 * 8)) & 0xFF
-
-void render_filled_circle_a(SDL_Renderer *renderer, SDL_Point pixel, int radius) {
+void render_filled_circle(SDL_Renderer *renderer, SDL_Point pixel, int radius) {
     int offsetx, offsety, d;
     offsetx = 0;
     offsety = radius;
@@ -37,7 +33,7 @@ void render_filled_circle_a(SDL_Renderer *renderer, SDL_Point pixel, int radius)
 
 void render_filled_circle(SDL_Renderer *renderer, int x, int y, int radius) {
     SDL_Point pixel = {.x = x, .y = y};
-    render_filled_circle_a(renderer, pixel, radius);
+    render_filled_circle(renderer, pixel, radius);
 }
 
 void render_thick_line(SDL_Renderer *renderer, SDL_Point begin_pixel, SDL_Point end_pixel,
