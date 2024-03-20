@@ -1,6 +1,3 @@
 #include "better_plotting.hpp"
 
-int main() {
-    plot_func();
-    return 0;
-}
+int main() { return plot_func(); }
