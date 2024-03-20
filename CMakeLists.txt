@@ -1,36 +1,47 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.25)
 
 # Set the project name and version
 project(BetterPlotting VERSION 1.0)
 
-# Specify the C++ standard
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
-
-# Add compile options
-add_compile_options(-Wall -Wextra -Wpedantic -Werror)
-
-# Add linker options
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=mold")
-
-# set(CMAKE_UNITY_BUILD TRUE)
-
-# Add definitions for sanitizers
-add_compile_options(-fsanitize=address,undefined,leak)
-add_link_options(-fsanitize=address,undefined,leak)
-
-
-# Include directories
-include_directories(src/better_version/)
+find_package(SDL2 REQUIRED)
 
 # Add the executable
-add_executable(better_plotting src/better_version/better_plotting.cpp
-                               src/better_version/test.cpp)
+add_executable(better_plotting
+    src/better_version/better_plotting.cpp
+    src/better_version/test.cpp
+)
 
 # Link with SDL2
-find_package(SDL2 REQUIRED)
 target_link_libraries(better_plotting SDL2::SDL2)
 
-# Debug info
-# set(CMAKE_BUILD_TYPE Debug)
-set(CMAKE_CXX_FLAGS_DEBUG_INIT "-ggdb -Og")
+target_compile_features(better_plotting PRIVATE cxx_std_20)
+
+target_compile_options(better_plotting
+    PRIVATE
+        -Wall
+        -Wextra
+        -Wpedantic
+        -Werror
+        $<$<CONFIG:Debug>:-Og -ggdb -fsanitize=address,undefined,leak>
+        $<$<CONFIG:Release>:-O2>
+        $<$<CONFIG:MinSizeRel>:-Os>
+        $<$<CONFIG:RelWithDebInfo>:-O2 -ggdb>
+)
+
+target_compile_definitions(better_plotting
+    PRIVATE
+        "$<$<CONFIG:DEBUG>:DEBUG>"
+        "$<$<CONFIG:RELEASE>:RELEASE>"
+        "$<$<CONFIG:MINSIZEREL>:MINSIZEREL>"
+        "$<$<CONFIG:RELWITHDEBINFO>:RELWITHDEBINFO>"
+  )
+
+target_link_options(better_plotting
+    PRIVATE
+        $<$<CONFIG:Debug>:-fsanitize=address,undefined,leak>
+)
+
+target_include_directories(better_plotting
+    PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}/src/better_version
+)
