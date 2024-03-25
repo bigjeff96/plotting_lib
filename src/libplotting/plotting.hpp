@@ -3,17 +3,21 @@
 
 #include <string>
 
-struct data_range {
+struct data_range
+{
     double min;
     double max;
 };
 
-struct pixel_range {
+struct pixel_range
+{
     int min;
     int max;
 };
 
-struct Plotter {
+struct Plotter
+{
+public:
     using string_ref = const std::string&;
     std::string title;
     std::string x_label;
@@ -28,7 +32,7 @@ struct Plotter {
 
     void plot();
 
-   private:
+private:
 #ifdef DEBUG
     // 2256x1504 laptop screen
     constexpr static int SCREEN_WIDTH = 2256;

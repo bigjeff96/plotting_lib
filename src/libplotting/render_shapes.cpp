@@ -2,28 +2,54 @@
 
 #include <libplotting/render_shapes.hpp>
 
-void render_filled_circle(SDL_Renderer *renderer, SDL_Point pixel, int radius) {
+void render_filled_circle(SDL_Renderer *renderer, SDL_Point pixel, int radius)
+{
     int offsetx, offsety, d;
     offsetx = 0;
     offsety = radius;
     d = radius - 1;
     while (offsety >= offsetx) {
-        SDL_RenderDrawLine(renderer, pixel.x - offsety, pixel.y + offsetx, pixel.x + offsety,
-                           pixel.y + offsetx);
-        SDL_RenderDrawLine(renderer, pixel.x - offsetx, pixel.y + offsety, pixel.x + offsetx,
-                           pixel.y + offsety);
-        SDL_RenderDrawLine(renderer, pixel.x - offsetx, pixel.y - offsety, pixel.x + offsetx,
-                           pixel.y - offsety);
-        SDL_RenderDrawLine(renderer, pixel.x - offsety, pixel.y - offsetx, pixel.x + offsety,
-                           pixel.y - offsetx);
+        SDL_RenderDrawLine(
+            renderer,
+            pixel.x - offsety,
+            pixel.y + offsetx,
+            pixel.x + offsety,
+            pixel.y + offsetx
+        );
+
+        SDL_RenderDrawLine(
+            renderer,
+            pixel.x - offsetx,
+            pixel.y + offsety,
+            pixel.x + offsetx,
+            pixel.y + offsety
+        );
+
+        SDL_RenderDrawLine(
+            renderer,
+            pixel.x - offsetx,
+            pixel.y - offsety,
+            pixel.x + offsetx,
+            pixel.y - offsety
+        );
+
+        SDL_RenderDrawLine(
+            renderer,
+            pixel.x - offsety,
+            pixel.y - offsetx,
+            pixel.x + offsety,
+            pixel.y - offsetx
+        );
 
         if (d >= 2 * offsetx) {
             d -= 2 * offsetx + 1;
             offsetx += 1;
-        } else if (d < 2 * (radius - offsety)) {
+        }
+        else if (d < 2 * (radius - offsety)) {
             d += 2 * offsety - 1;
             offsety -= 1;
-        } else {
+        }
+        else {
             d += 2 * (offsety - offsetx - 1);
             offsety -= 1;
             offsetx += 1;
@@ -31,13 +57,18 @@ void render_filled_circle(SDL_Renderer *renderer, SDL_Point pixel, int radius) {
     }
 }
 
-void render_filled_circle(SDL_Renderer *renderer, int x, int y, int radius) {
+void render_filled_circle(SDL_Renderer *renderer, int x, int y, int radius)
+{
     SDL_Point pixel = {.x = x, .y = y};
     render_filled_circle(renderer, pixel, radius);
 }
 
-void render_thick_line(SDL_Renderer *renderer, SDL_Point begin_pixel, SDL_Point end_pixel,
-                       float width) {
+void render_thick_line(
+    SDL_Renderer *renderer,
+    SDL_Point begin_pixel,
+    SDL_Point end_pixel,
+    float width)
+{
     int x0 = begin_pixel.x;
     int y0 = begin_pixel.y;
     int x1 = end_pixel.x;
@@ -56,7 +87,7 @@ void render_thick_line(SDL_Renderer *renderer, SDL_Point begin_pixel, SDL_Point 
             for (e2 += dy, y2 = y0; e2 < ed * width && (y1 != y2 || dx > dy); e2 += dx) {
                 SDL_RenderDrawPoint(renderer, x0, y2 += sy);
             }
-            if (x0 == x1) break;
+            if (x0 == x1) { break; }
             e2 = err;
             err -= dy;
             x0 += sx;
@@ -65,28 +96,39 @@ void render_thick_line(SDL_Renderer *renderer, SDL_Point begin_pixel, SDL_Point 
             for (e2 = dx - e2; e2 < ed * width && (x1 != x2 || dx < dy); e2 += dy) {
                 SDL_RenderDrawPoint(renderer, x2 += sx, y0);
             }
-            if (y0 == y1) break;
+            if (y0 == y1) { break; }
             err += dx;
             y0 += sy;
         }
     }
 }
 
-int render_filled_ellipse(SDL_Renderer *renderer, float cx, float cy, float rx, float ry, Uint8 r,
-                          Uint8 g, Uint8 b, Uint8 a) {
+int render_filled_ellipse(
+    SDL_Renderer *renderer,
+    float cx,
+    float cy,
+    float rx,
+    float ry,
+    Uint8 r,
+    Uint8 g,
+    Uint8 b,
+    Uint8 a)
+{
     int n, xi, yi, result = 0;
     double s, v, x, y, dx, dy;
 
-    if ((rx <= 0.0) || (ry <= 0.0)) return -1;
+    if ((rx <= 0.0) || (ry <= 0.0)) { return -1; }
 
     result |= SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     if (rx >= ry) {
         n = ry + 1;
         for (yi = cy - n - 1; yi <= cy + n + 1; yi++) {
-            if (yi < (cy - 0.5))
+            if (yi < (cy - 0.5)) {
                 y = yi;
-            else
+            }
+            else {
                 y = yi + 1;
+            }
             s = (y - cy) / ry;
             s = s * s;
             x = 0.5;
@@ -103,10 +145,10 @@ int render_filled_ellipse(SDL_Renderer *renderer, float cx, float cy, float rx, 
             while (1) {
                 dx = (cx - xi - 1) * ry / rx;
                 v = s - 4 * (dx - dy) * (dx - dy);
-                if (v < 0) break;
+                if (v < 0) { break; }
                 v = (sqrt(v) - 2 * (dx + dy)) / 4;
-                if (v < 0) break;
-                if (v > 1.0) v = 1.0;
+                if (v < 0) { break; }
+                if (v > 1.0) { v = 1.0; }
                 result |= SDL_SetRenderDrawColor(renderer, r, g, b, (double)a * v);
                 result |= SDL_RenderDrawPoint(renderer, xi, yi);
                 xi -= 1;
@@ -115,22 +157,25 @@ int render_filled_ellipse(SDL_Renderer *renderer, float cx, float cy, float rx, 
             while (1) {
                 dx = (xi - cx) * ry / rx;
                 v = s - 4 * (dx - dy) * (dx - dy);
-                if (v < 0) break;
+                if (v < 0) { break; }
                 v = (sqrt(v) - 2 * (dx + dy)) / 4;
-                if (v < 0) break;
-                if (v > 1.0) v = 1.0;
+                if (v < 0) { break; }
+                if (v > 1.0) { v = 1.0; }
                 result |= SDL_SetRenderDrawColor(renderer, r, g, b, (double)a * v);
                 result |= SDL_RenderDrawPoint(renderer, xi, yi);
                 xi += 1;
             }
         }
-    } else {
+    }
+    else {
         n = rx + 1;
         for (xi = cx - n - 1; xi <= cx + n + 1; xi++) {
-            if (xi < (cx - 0.5))
+            if (xi < (cx - 0.5)) {
                 x = xi;
-            else
+            }
+            else {
                 x = xi + 1;
+            }
             s = (x - cx) / rx;
             s = s * s;
             y = 0.5;
@@ -147,10 +192,10 @@ int render_filled_ellipse(SDL_Renderer *renderer, float cx, float cy, float rx, 
             while (1) {
                 dy = (cy - yi - 1) * rx / ry;
                 v = s - 4 * (dy - dx) * (dy - dx);
-                if (v < 0) break;
+                if (v < 0) { break; }
                 v = (sqrt(v) - 2 * (dy + dx)) / 4;
-                if (v < 0) break;
-                if (v > 1.0) v = 1.0;
+                if (v < 0) { break; }
+                if (v > 1.0) { v = 1.0; }
                 result |= SDL_SetRenderDrawColor(renderer, r, g, b, (double)a * v);
                 result |= SDL_RenderDrawPoint(renderer, xi, yi);
                 yi -= 1;
@@ -159,9 +204,9 @@ int render_filled_ellipse(SDL_Renderer *renderer, float cx, float cy, float rx, 
             while (1) {
                 dy = (yi - cy) * rx / ry;
                 v = s - 4 * (dy - dx) * (dy - dx);
-                if (v < 0) break;
+                if (v < 0) { break; }
                 v = (sqrt(v) - 2 * (dy + dx)) / 4;
-                if (v < 0) break;
+                if (v < 0) { break; }
                 if (v > 1.0) v = 1.0;
                 result |= SDL_SetRenderDrawColor(renderer, r, g, b, (double)a * v);
                 result |= SDL_RenderDrawPoint(renderer, xi, yi);

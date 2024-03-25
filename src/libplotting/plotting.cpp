@@ -6,25 +6,30 @@
 #include <libplotting/plotting.hpp>
 #include <libplotting/render_shapes.hpp>
 
-int plot_func() {
+int plot_func()
+{
     Plotter plotter;
     int err = plotter.init("test title", "x", "y");
-    if (err) exit(1);
+    if (err) { exit(1); }
     plotter.plot();
 
     return 0;
 }
 
-uint32_t static determine_time_to_delay(uint32_t next_time) {
+uint32_t static determine_time_to_delay(uint32_t next_time)
+{
     uint32_t now;
     now = SDL_GetTicks();
-    if (next_time <= now)
-        return 0;
-    else
-        return next_time - now;
+    return (next_time <= now) ? 0 : next_time - now;
 }
 
-int Plotter::init(string_ref title, string_ref x_label, string_ref y_label, int width, int height) {
+int Plotter::init(
+    string_ref title,
+    string_ref x_label,
+    string_ref y_label,
+    int width,
+    int height)
+{
     this->title = title;
     this->x_label = x_label;
     this->y_label = y_label;
@@ -42,22 +47,42 @@ int Plotter::init(string_ref title, string_ref x_label, string_ref y_label, int 
     return Plotter::init_sdl();
 }
 
-int Plotter::init_sdl() {
+int Plotter::init_sdl()
+{
     int err = SDL_Init(SDL_INIT_EVERYTHING);
-    if (err) return 1;
+    if (err) { return 1; }
+
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
-    window = SDL_CreateWindow("lul", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH,
-                              SCREEN_HEIGHT,
-                              SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
-    if (!window) return 1;
+    window = SDL_CreateWindow(
+        "lul",
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        SCREEN_WIDTH,
+        SCREEN_HEIGHT,
+        SDL_WINDOW_SHOWN |
+        SDL_WINDOW_RESIZABLE |
+        SDL_WINDOW_OPENGL
+    );
+    if (!window) { return 1; }
+
     renderer = SDL_CreateRenderer(
-        window, -1,
-        SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE);
-    if (!renderer) return 1;
+        window,
+        -1,
+        SDL_RENDERER_ACCELERATED |
+        SDL_RENDERER_PRESENTVSYNC |
+        SDL_RENDERER_TARGETTEXTURE
+    );
+    if (!renderer) { return 1; }
+
     SDL_SetRenderDrawColor(renderer, 0xFF, 0, 0, 0xFF);
-    texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET,
-                                SCREEN_WIDTH, SCREEN_HEIGHT);
-    if (!texture) return 1;
+    texture = SDL_CreateTexture(
+        renderer,
+        SDL_PIXELFORMAT_RGBA8888,
+        SDL_TEXTUREACCESS_TARGET,
+        SCREEN_WIDTH,
+        SCREEN_HEIGHT
+    );
+    if (!texture) { return 1; }
 
     // make a viewport in the center of the screen
     {  // center the plotter
@@ -73,7 +98,8 @@ int Plotter::init_sdl() {
     return 0;
 }
 
-void Plotter::plot() {
+void Plotter::plot()
+{
     SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     SDL_RenderClear(renderer);
 
@@ -95,7 +121,7 @@ void Plotter::plot() {
     // NOTE: right now only going to scatter plots
     LOG("Rendering the data");
     SDL_SetRenderDrawColor(renderer, 0xFF, 0, 0, 0);
-    render_filled_circle(renderer, 10, 10, 3);
+    render_filled_circle(renderer, 50, 50, 30);
 
     // render to the whole screen again
     SDL_RenderSetViewport(renderer, NULL);
@@ -110,15 +136,15 @@ void Plotter::plot() {
     while (!quit) {
         while (SDL_PollEvent(&e) != 0) {
             switch (e.type) {
-                case SDL_QUIT:
-                    quit = true;
-                    break;
+            case SDL_QUIT:
+                quit = true;
+                break;
 
-                case SDL_KEYDOWN:
-                    if (e.key.keysym.sym == SDLK_q) {
-                        quit = true;
-                    }
-                    break;
+            case SDL_KEYDOWN:
+                if (e.key.keysym.sym == SDLK_q) {
+                    quit = true;
+                }
+                break;
             }
         }
         SDL_Delay(determine_time_to_delay(next_time));
@@ -132,7 +158,8 @@ void Plotter::plot() {
     quit_sdl();
 }
 
-void Plotter::quit_sdl() {
+void Plotter::quit_sdl()
+{
     SDL_DestroyTexture(texture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
