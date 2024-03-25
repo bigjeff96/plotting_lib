@@ -1,11 +1,10 @@
-#include <libplotting/plotting.hpp>
-
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_video.h>
 
 #include <cassert>
 #include <cstdint>
 #include <iostream>
+#include <libplotting/plotting.hpp>
+#include <libplotting/render_shapes.hpp>
 
 int plot_func() {
     Plotter plotter;

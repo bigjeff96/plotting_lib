@@ -8,6 +8,7 @@ find_package(SDL2 REQUIRED)
 # Add a static library
 add_library(plotting
     src/libplotting/plotting.cpp
+    src/libplotting/render_shapes.cpp
 )
 
 target_link_libraries(plotting
