@@ -17,8 +17,8 @@ struct Plotter {
     void plot();
 
    private:
-    // 2256x1504 laptop screen
 #ifdef DEBUG
+    // 2256x1504 laptop screen
     constexpr static int SCREEN_WIDTH = 2256;
     constexpr static int SCREEN_HEIGHT = 1504;
 #else
@@ -41,3 +41,9 @@ int plot_func();
         printf("%s:%d:\nTODO: %s\n", __FILE__, __LINE__, msg); \
         exit(1);                                               \
     } while (0)
+
+#ifdef DEBUG
+#define LOG(fmt, ...) printf("%s:%d:\nLOG: " fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__)
+#else
+#define LOG(fmt, ...)
+#endif

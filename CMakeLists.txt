@@ -39,6 +39,8 @@ target_link_options(plotting
         "$<$<CONFIG:Debug>:-fsanitize=address,undefined,leak>"
 )
 
+target_compile_definitions(plotting PUBLIC "$<$<CONFIG:DEBUG>:DEBUG>")
+
 target_include_directories(plotting
     PUBLIC
         ${CMAKE_CURRENT_LIST_DIR}/src

@@ -35,7 +35,9 @@ int Plotter::init(string_ref title, string_ref x_label, string_ref y_label, int 
         this->width = width;
         this->height = height;
     }
+    LOG("width %d, height %d", this->width, this->height);
     // here determine the data ranges
+    LOG("the init function will also need to take in the data to plot");
 
     return Plotter::init_sdl();
 }
@@ -78,6 +80,7 @@ void Plotter::plot() {
     // lets render to the viewport now
     SDL_RenderSetViewport(renderer, &canvas_rect);
 
+    // draw the canvas border
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
     SDL_Point top_left = {0, 0};
     SDL_Point top_right = {canvas_rect.w - 1, 0};
@@ -89,6 +92,10 @@ void Plotter::plot() {
     SDL_RenderDrawLine(renderer, bottom_right.x, bottom_right.y, top_right.x, top_right.y);
 
     // draw the data
+    // NOTE: right now only going to scatter plots
+    LOG("Rendering the data");
+    SDL_SetRenderDrawColor(renderer, 0xFF, 0, 0, 0);
+    render_filled_circle(renderer, 10, 10, 3);
 
     // render to the whole screen again
     SDL_RenderSetViewport(renderer, NULL);
