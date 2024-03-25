@@ -3,6 +3,16 @@
 
 #include <string>
 
+struct data_range {
+    double min;
+    double max;
+};
+
+struct pixel_range {
+    int min;
+    int max;
+};
+
 struct Plotter {
     using string_ref = const std::string&;
     std::string title;
@@ -10,6 +20,8 @@ struct Plotter {
     std::string y_label;
     int width;   // in pixels
     int height;  // in pixels
+    data_range x_range;
+    data_range y_range;
 
     int init(string_ref title, string_ref x_label, string_ref y_label, int width = 0,
              int height = 0);
@@ -27,11 +39,15 @@ struct Plotter {
 #endif
     constexpr static uint32_t TICK_INTERVAL = 33;
 
+    pixel_range x_pixel_range;
+    pixel_range y_pixel_range;
+
     SDL_Window* window;
     SDL_Renderer* renderer;
     SDL_Texture* texture;
     SDL_Rect canvas_rect;
     int init_sdl();
+    void quit_sdl();
 };
 
 int plot_func();

@@ -127,4 +127,14 @@ void Plotter::plot() {
         SDL_RenderPresent(renderer);
         next_time += TICK_INTERVAL;
     }
+
+    // cleanup
+    quit_sdl();
+}
+
+void Plotter::quit_sdl() {
+    SDL_DestroyTexture(texture);
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
 }
