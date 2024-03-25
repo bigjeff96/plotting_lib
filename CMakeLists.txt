@@ -12,9 +12,15 @@ add_executable(better_plotting
 )
 
 # Link with SDL2
-target_link_libraries(better_plotting SDL2::SDL2)
+target_link_libraries(better_plotting
+    PRIVATE
+        SDL2::SDL2
+)
 
-target_compile_features(better_plotting PRIVATE cxx_std_20)
+target_compile_features(better_plotting
+    PRIVATE
+        cxx_std_20
+)
 
 target_compile_options(better_plotting
     PRIVATE
@@ -22,23 +28,16 @@ target_compile_options(better_plotting
         -Wextra
         -Wpedantic
         -Werror
-        $<$<CONFIG:Debug>:-Og -ggdb -fsanitize=address,undefined,leak>
-        $<$<CONFIG:Release>:-O2>
-        $<$<CONFIG:MinSizeRel>:-Os>
-        $<$<CONFIG:RelWithDebInfo>:-O2 -ggdb>
+        "$<$<CONFIG:Debug>:-Og>"
+        "$<$<CONFIG:Debug>:-fsanitize=address,undefined,leak>"
+        "$<$<CONFIG:MinSizeRel>:-Os>"
+        "$<$<OR:$<CONFIG:Release>,$<CONFIG:RelWithDebInfo>>:-O2>"
+        "$<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:-ggdb>"
 )
-
-target_compile_definitions(better_plotting
-    PRIVATE
-        "$<$<CONFIG:DEBUG>:DEBUG>"
-        "$<$<CONFIG:RELEASE>:RELEASE>"
-        "$<$<CONFIG:MINSIZEREL>:MINSIZEREL>"
-        "$<$<CONFIG:RELWITHDEBINFO>:RELWITHDEBINFO>"
-  )
 
 target_link_options(better_plotting
     PRIVATE
-        $<$<CONFIG:Debug>:-fsanitize=address,undefined,leak>
+        "$<$<CONFIG:Debug>:-fsanitize=address,undefined,leak>"
 )
 
 target_include_directories(better_plotting
