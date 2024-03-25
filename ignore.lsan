@@ -1,0 +1,4 @@
+leak:libdbus
+leak:libnvidia-glcore
+leak:libSDL2
+leak:libxcb
