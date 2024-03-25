@@ -1,4 +1,4 @@
-#include "better_plotting.hpp"
+#include <libplotting/plotting.hpp>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_video.h>

@@ -5,25 +5,23 @@ project(BetterPlotting VERSION 1.0)
 
 find_package(SDL2 REQUIRED)
 
-# Add the executable
-add_executable(better_plotting
-    src/better_version/better_plotting.cpp
-    src/better_version/test.cpp
+# Add a static library
+add_library(plotting
+    src/libplotting/plotting.cpp
 )
 
-# Link with SDL2
-target_link_libraries(better_plotting
-    PRIVATE
+target_link_libraries(plotting
+    PUBLIC
         SDL2::SDL2
 )
 
-target_compile_features(better_plotting
-    PRIVATE
+target_compile_features(plotting
+    PUBLIC
         cxx_std_20
 )
 
-target_compile_options(better_plotting
-    PRIVATE
+target_compile_options(plotting
+    PUBLIC
         -Wall
         -Wextra
         -Wpedantic
@@ -35,12 +33,22 @@ target_compile_options(better_plotting
         "$<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:-ggdb>"
 )
 
-target_link_options(better_plotting
-    PRIVATE
+target_link_options(plotting
+    PUBLIC
         "$<$<CONFIG:Debug>:-fsanitize=address,undefined,leak>"
 )
 
-target_include_directories(better_plotting
+target_include_directories(plotting
+    PUBLIC
+        ${CMAKE_CURRENT_LIST_DIR}/src
+)
+
+# Add the executable
+add_executable(plotting-tests
+    src/tests/main.cpp
+)
+
+target_link_libraries(plotting-tests
     PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}/src/better_version
+        plotting
 )
