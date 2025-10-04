@@ -1,3 +1,4 @@
+#pragma once
 #include <SDL2/SDL.h>
 
 void render_filled_circle(SDL_Renderer* renderer, SDL_Point pixel, int radius);
